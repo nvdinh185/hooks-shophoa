@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Index from "./pages/Index";
-import Add from "./pages/Add";
 import List from "./pages/List";
+import Add from "./pages/Add";
 import Edit from "./pages/Edit";
 
 export default function App() {
