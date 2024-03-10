@@ -1501,3 +1501,8 @@ a.dashboard-module span {
 #myTable tr:hover td {
 	background: #EEEEEE
 }
+
+.invalid {
+	border: 2px solid red;
+	border-radius: 5px;
+}

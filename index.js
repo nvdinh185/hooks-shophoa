@@ -1,7 +1,9 @@
 const express = require('express');
 const app = express();
+const cors = require('cors');
 const errorHandler = require('./_helpers/error-handler');
 
+app.use(cors());
 app.use(express.json());
 
 app.use(express.static(__dirname + "/client"));

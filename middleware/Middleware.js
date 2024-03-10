@@ -6,7 +6,7 @@ const { secret } = require('../config.json');
 class Middleware {
 
     uploadFile(req, res, next) {
-        const dirUpload = 'client/uploads';
+        const dirUpload = 'client/public/images/tmp';
         if (!fs.existsSync(dirUpload)) fs.mkdirSync(dirUpload);
         const form = new formidable.IncomingForm();
         form.uploadDir = dirUpload;
@@ -30,7 +30,7 @@ class Middleware {
                     //chuyển file từ thư mục temp sang thư mục upload_files
                     fs.renameSync(oldPath, newPath);
 
-                    formData[key] = newPath.slice(15);
+                    formData[key] = newPath.slice(25);
                 } else {
                     formData[key] = '';
                 }

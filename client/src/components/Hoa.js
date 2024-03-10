@@ -5,7 +5,7 @@ const Hoa = (props) => {
             <td>
                 <a href="">{props.name}</a>
             </td>
-            <td>{props.loai_hoa}</td>
+            <td>{props.catName}</td>
             <td align="center">
                 <img src={"images/tmp/" + props.image} className="hoa" />
             </td>

@@ -1,8 +1,34 @@
-import { Link } from "react-router-dom";
+import axios from 'axios';
+import { useState, useEffect } from 'react';
+import { Link, useLocation } from "react-router-dom";
+
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import Hoa from "../components/Hoa";
 
 export default function List() {
+
+  const [listHoa, setListHoa] = useState([]);
+  const [msg, setMsg] = useState('');
+  const [error, setError] = useState('');
+  const { state } = useLocation();
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        let result = await axios('http://localhost:3001/hoa');
+        setListHoa(result.data);
+      } catch (error) {
+        console.log(error);
+        setError('Xảy ra lỗi khi lấy dữ liệu!');
+      }
+    }
+    fetchData();
+    if (state) {
+      setMsg(state.msg);
+    }
+  }, []);
+
   return (
     <>
       {/* Header */}
@@ -23,9 +49,16 @@ export default function List() {
         <div className="grid_12">
           {/* Example table */}
           <div className="module">
-            <div>
-              <span className="notification n-success">Thêm thành công</span>
-            </div>
+            <p style={{
+              color: 'green',
+              backgroundColor: 'yellow',
+              fontStyle: 'italic'
+            }}>{msg}</p>
+            <p style={{
+              color: 'red',
+              backgroundColor: 'yellow',
+              fontStyle: 'italic'
+            }}>{error}</p>
             <h2>
               <span>Danh sách hoa</span>
             </h2>
@@ -34,7 +67,7 @@ export default function List() {
                 <table id="myTable" className="tablesorter">
                   <thead>
                     <tr>
-                      <th style={{ width: "4%", textAlign: "center" }}>ID</th>
+                      <th style={{ width: "15%", textAlign: "center" }}>ID</th>
                       <th>Tên hoa</th>
                       <th style={{ width: "20%" }}>Loại hoa</th>
                       <th style={{ width: "16%", textAlign: "center" }}>
@@ -46,126 +79,15 @@ export default function List() {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td className="align-center">1</td>
-                      <td>
-                        <a href="">Hoa Phong Lan</a>
-                      </td>
-                      <td>Khai trương</td>
-                      <td align="center">
-                        <img src="images/tmp/hoa1.jpg" className="hoa" />
-                      </td>
-                      <td align="center">
-                        <a href="">
-                          Sửa <img src="images/pencil.gif" alt="edit" />
-                        </a>
-                        <a href="">
-                          Xóa{" "}
-                          <img
-                            src="images/bin.gif"
-                            width={16}
-                            height={16}
-                            alt="delete"
-                          />
-                        </a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="align-center">2</td>
-                      <td>
-                        <a href="">Hoa Tỉ muội</a>
-                      </td>
-                      <td>Khai trương</td>
-                      <td align="center">
-                        <img src="images/tmp/hoa2.jpg" className="hoa" />
-                      </td>
-                      <td align="center">
-                        <a href="">
-                          Sửa <img src="images/pencil.gif" alt="edit" />
-                        </a>
-                        <a href="">
-                          Xóa{" "}
-                          <img
-                            src="images/bin.gif"
-                            width={16}
-                            height={16}
-                            alt="delete"
-                          />
-                        </a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="align-center">3</td>
-                      <td>
-                        <a href="">Hoa Violet</a>
-                      </td>
-                      <td>Hoa kỷ niệm</td>
-                      <td align="center">
-                        <img src="images/tmp/hoa3.jpg" className="hoa" />
-                      </td>
-                      <td align="center">
-                        <a href="">
-                          Sửa <img src="images/pencil.gif" alt="edit" />
-                        </a>
-                        <a href="">
-                          Xóa{" "}
-                          <img
-                            src="images/bin.gif"
-                            width={16}
-                            height={16}
-                            alt="delete"
-                          />
-                        </a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="align-center">4</td>
-                      <td>
-                        <a href="">Hoa thủy tiên</a>
-                      </td>
-                      <td>Hoa tình yêu</td>
-                      <td align="center">
-                        <img src="images/tmp/hoa4.jpg" className="hoa" />
-                      </td>
-                      <td align="center">
-                        <a href="">
-                          Sửa <img src="images/pencil.gif" alt="edit" />
-                        </a>
-                        <a href="">
-                          Xóa{" "}
-                          <img
-                            src="images/bin.gif"
-                            width={16}
-                            height={16}
-                            alt="delete"
-                          />
-                        </a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="align-center">5</td>
-                      <td>
-                        <a href="">Hoa cẩm chướng</a>
-                      </td>
-                      <td>Hoa hạnh phúc</td>
-                      <td align="center">
-                        <img src="images/tmp/hoa5.jpg" className="hoa" />
-                      </td>
-                      <td align="center">
-                        <a href="">
-                          Sửa <img src="images/pencil.gif" alt="edit" />
-                        </a>
-                        <a href="">
-                          Xóa{" "}
-                          <img
-                            src="images/bin.gif"
-                            width={16}
-                            height={16}
-                            alt="delete"
-                          />
-                        </a>
-                      </td>
-                    </tr>
+                    {listHoa.map(hoa =>
+                      <Hoa
+                        key={hoa.id}
+                        id={hoa.id}
+                        name={hoa.name}
+                        image={hoa.image}
+                        catName={hoa.loai_hoa}
+                      />
+                    )}
                   </tbody>
                 </table>
               </form>
