@@ -1,7 +1,6 @@
 {
   "name": "node-shophoa",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "dependencies": {
     "cors": "^2.8.5",
@@ -11,11 +10,7 @@
     "mysql": "^2.18.1",
     "nodemon": "^2.0.21"
   },
-  "devDependencies": {},
   "scripts": {
     "start": "nodemon index"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  }
 }

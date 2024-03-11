@@ -19,7 +19,6 @@ export default function List() {
         let result = await axios('http://localhost:3001/hoa');
         setListHoa(result.data);
       } catch (error) {
-        console.log(error);
         setError('Xảy ra lỗi khi lấy dữ liệu!');
       }
     }
