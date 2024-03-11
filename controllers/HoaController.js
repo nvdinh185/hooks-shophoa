@@ -59,7 +59,8 @@ class HoaController {
         try {
             var conn = mysql.createConnection(configDB);
 
-            const sqlSelect = `SELECT * FROM list_hoa WHERE id = '${id}'`;
+            const sqlSelect = `SELECT li.id, li.name, li.image, lo.id AS id_loai_hoa
+            FROM list_hoa AS li JOIN loai_hoa AS lo ON li.cat_id=lo.id WHERE li.id = '${id}'`;
             const hoaById = await new Promise((resolve, reject) => {
                 conn.query(sqlSelect, function (err, results) {
                     if (err) reject(err);

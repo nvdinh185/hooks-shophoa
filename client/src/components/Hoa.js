@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const Hoa = (props) => {
     return (
         <tr>
@@ -10,10 +12,10 @@ const Hoa = (props) => {
                 <img src={"images/tmp/" + props.image} className="hoa" />
             </td>
             <td align="center">
-                <a href="">
+                <Link to={'/edit/' + props.id}>
                     Sửa <img src="images/pencil.gif" alt="edit" />
-                </a>
-                <a href="">
+                </Link>
+                <a href="javascript:;" onClick={props.onClickDel}>
                     Xóa{" "}
                     <img
                         src="images/bin.gif"

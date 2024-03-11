@@ -1503,6 +1503,6 @@ a.dashboard-module span {
 }
 
 .invalid {
-	border: 2px solid red;
+	border: 2px solid red !important;
 	border-radius: 5px;
 }

@@ -28,6 +28,23 @@ export default function List() {
     }
   }, []);
 
+  const handleDelete = async (id) => {
+    if (window.confirm('Bạn có chắc muốn xóa ?')) {
+      try {
+        await axios({
+          method: "DELETE",
+          url: `http://localhost:3001/hoa/delete/${id}`,
+        });
+
+        let result = await axios('http://localhost:3001/hoa');
+        setListHoa(result.data);
+        setMsg('Đã xóa thành công!');
+      } catch (error) {
+        setError('Xảy ra lỗi khi xóa!');
+      }
+    }
+  }
+
   return (
     <>
       {/* Header */}
@@ -85,6 +102,7 @@ export default function List() {
                         name={hoa.name}
                         image={hoa.image}
                         catName={hoa.loai_hoa}
+                        onClickDel={() => handleDelete(hoa.id)}
                       />
                     )}
                   </tbody>

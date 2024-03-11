@@ -131,7 +131,7 @@ export default function Add() {
                   >
                     <option value="">-- Chọn loại hoa --</option>
                     {listLoaiHoa.map(loai =>
-                      <option value={loai.id}>{loai.name}</option>
+                      <option key={loai.id} value={loai.id}>{loai.name}</option>
                     )}
                   </select>
                   <span style={{
