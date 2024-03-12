@@ -1,5 +1,6 @@
 const config = require('../config.json');
 const jwt = require('jsonwebtoken');
+const util = require('util');
 
 const mysql = require('mysql');
 
@@ -17,14 +18,11 @@ class HoaController {
         try {
             var conn = mysql.createConnection(configDB);
 
+            const query = util.promisify(conn.query).bind(conn);
+
             const sqlSelect = `SELECT li.id, li.name, li.image, lo.name AS loai_hoa
                                 FROM list_hoa AS li JOIN loai_hoa AS lo ON li.cat_id=lo.id`;
-            const listHoa = await new Promise((resolve, reject) => {
-                conn.query(sqlSelect, function (err, results) {
-                    if (err) reject(err);
-                    resolve(results);
-                });
-            });
+            const listHoa = await query(sqlSelect);
             res.status(200).send(listHoa);
         } catch (err) {
             next(err);
@@ -38,13 +36,9 @@ class HoaController {
         try {
             var conn = mysql.createConnection(configDB);
 
-            const sqlSelect = `SELECT * FROM loai_hoa`;
-            const listLoaiHoa = await new Promise((resolve, reject) => {
-                conn.query(sqlSelect, function (err, results) {
-                    if (err) reject(err);
-                    resolve(results);
-                });
-            });
+            const query = util.promisify(conn.query).bind(conn);
+
+            const listLoaiHoa = await query(`SELECT * FROM loai_hoa`);
             res.status(200).send(listLoaiHoa);
         } catch (err) {
             next(err);
@@ -59,14 +53,11 @@ class HoaController {
         try {
             var conn = mysql.createConnection(configDB);
 
+            const query = util.promisify(conn.query).bind(conn);
+
             const sqlSelect = `SELECT li.id, li.name, li.image, lo.id AS id_loai_hoa
             FROM list_hoa AS li JOIN loai_hoa AS lo ON li.cat_id=lo.id WHERE li.id = '${id}'`;
-            const hoaById = await new Promise((resolve, reject) => {
-                conn.query(sqlSelect, function (err, results) {
-                    if (err) reject(err);
-                    resolve(results);
-                });
-            });
+            const hoaById = await query(sqlSelect);
             res.status(200).send(hoaById[0]);
         } catch (err) {
             next(err);
@@ -80,13 +71,10 @@ class HoaController {
         try {
             var conn = mysql.createConnection(configDB);
 
-            const user = await new Promise((resolve, reject) => {
-                conn.query(`SELECT * FROM users WHERE username = '${req.body.username}'
-                AND password = '${req.body.password}'`, (err, results) => {
-                    if (err) reject(err);
-                    resolve(results);
-                })
-            })
+            const query = util.promisify(conn.query).bind(conn);
+
+            const user = await query(`SELECT * FROM users WHERE username = '${req.body.username}'
+                AND password = '${req.body.password}'`)
             // console.log(user[0]);
             if (user && user[0]) {
                 const token = jwt.sign({ id: user[0].id, role: user[0].role }, config.secret, {
@@ -120,13 +108,10 @@ class HoaController {
         try {
             var conn = mysql.createConnection(configDB);
 
-            const result = await new Promise((resolve, reject) => {
-                conn.query(`INSERT INTO list_hoa(id, name, image, cat_id) VALUES (?, ?, ?, ?)`,
-                    [generateUuid(), name, file, type], (err, results) => {
-                        if (err) reject(err);
-                        resolve(results);
-                    });
-            })
+            const query = util.promisify(conn.query).bind(conn);
+
+            const result = await query(`INSERT INTO list_hoa(id, name, image, cat_id) VALUES (?, ?, ?, ?)`,
+                [generateUuid(), name, file, type]);
             res.status(200).send(result);
         } catch (err) {
             next(err);
@@ -143,13 +128,10 @@ class HoaController {
         try {
             var conn = mysql.createConnection(configDB);
 
-            const result = await new Promise((resolve, reject) => {
-                conn.query(`UPDATE list_hoa SET name = '${name}', cat_id = '${type}',
-                ${imageSql} WHERE id = '${id}'`, (err, results) => {
-                    if (err) reject(err);
-                    resolve(results);
-                });
-            })
+            const query = util.promisify(conn.query).bind(conn);
+
+            const result = await query(`UPDATE list_hoa SET name = '${name}', cat_id = '${type}',
+                ${imageSql} WHERE id = '${id}'`);
             res.status(200).send(result);
         } catch (err) {
             next(err);
@@ -164,12 +146,9 @@ class HoaController {
         try {
             var conn = mysql.createConnection(configDB);
 
-            const result = await new Promise((resolve, reject) => {
-                conn.query(`DELETE FROM list_hoa WHERE id = '${id}'`, (err, results) => {
-                    if (err) reject(err);
-                    resolve(results);
-                });
-            })
+            const query = util.promisify(conn.query).bind(conn);
+
+            const result = await query(`DELETE FROM list_hoa WHERE id = '${id}'`);
             res.status(200).send(result);
         } catch (err) {
             next(err);

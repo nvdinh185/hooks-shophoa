@@ -36,8 +36,8 @@ export default function List() {
           url: `http://localhost:3001/hoa/delete/${id}`,
         });
 
-        let result = await axios('http://localhost:3001/hoa');
-        setListHoa(result.data);
+        let newList = listHoa.filter(hoa => hoa.id !== id);
+        setListHoa(newList);
         setMsg('Đã xóa thành công!');
       } catch (error) {
         setError('Xảy ra lỗi khi xóa!');

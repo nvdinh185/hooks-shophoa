@@ -31,7 +31,7 @@ export default function Edit() {
       }
     }
     fetchData();
-  }, [id]);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -102,7 +102,7 @@ export default function Edit() {
                 </p>
                 <p>
                   <label>Hình ảnh</label>
-                  <img id="avatar" src={"/images/tmp/" + image}
+                  <img src={"/images/tmp/" + image}
                     alt="Không có hình ảnh" width="80px" height="80px" />
                   <input type="file" defaultValue="" />
                 </p>
