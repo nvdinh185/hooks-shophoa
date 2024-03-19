@@ -19,7 +19,7 @@ export default function Edit() {
   useEffect(() => {
     async function fetchData() {
       try {
-        var hoaById = await axios(`http://localhost:3001/hoa/${id}`);
+        let hoaById = await axios(`http://localhost:3001/hoa/${id}`);
         setName(hoaById.data.name);
         setType(hoaById.data.id_loai_hoa);
         setImage(hoaById.data.image);
